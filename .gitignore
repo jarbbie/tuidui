@@ -1,1 +1,7 @@
-/target
+# Rust build output
+/target/
+
+# Local environment files
+.env
+.env.*
+!.env.example
