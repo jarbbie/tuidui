@@ -30,6 +30,7 @@ use tokio::{
     sync::{RwLock, mpsc},
 };
 use uuid::Uuid;
+use dotenv;
 
 const MAX_MESSAGE_CHARS: usize = 500;
 const MAX_HISTORY_MESSAGES: i64 = 100;
@@ -102,10 +103,11 @@ struct HealthResponse {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    dotenv::dotenv().ok();
     let database_url = env::var("DATABASE_URL").map_err(|_| {
         io::Error::new(
             io::ErrorKind::NotFound,
-            "DATABASE_URL must point to the PostgreSQL database",
+            "DATABASE_URL is not set; define it in the environment or in the loaded .env file",
         )
     })?;
     let pool = PgPoolOptions::new()
